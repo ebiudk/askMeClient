@@ -24,7 +24,7 @@
                     </Button.Template>
                     <Button.Resources>
                         <Style TargetType="TextBlock">
-                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Foreground" Value="#0078D4"/>
                             <Setter Property="FontWeight" Value="Bold"/>
                         </Style>
                     </Button.Resources>
