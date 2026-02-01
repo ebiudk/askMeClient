@@ -14,7 +14,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelTextBlockStyle}" Text="Webアプリケーション連携" Foreground="#0078D4" VerticalAlignment="Center"/>
-                <Button Grid.Column="1" Content="AskMe! Webを開く" Click="AskMeWebButton_Click" Margin="10,0,0,0" Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <Button Grid.Column="1" Content="AskMe! Webを開く" Click="AskMeWebButton_Click" Margin="10,0,0,0" Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#0078D4" FontWeight="Bold">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border Background="White" BorderBrush="#0078D4" BorderThickness="1" CornerRadius="4" Cursor="Hand">
@@ -22,12 +22,6 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
-                    <Button.Resources>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Foreground" Value="#0078D4"/>
-                            <Setter Property="FontWeight" Value="Bold"/>
-                        </Style>
-                    </Button.Resources>
                 </Button>
             </Grid>
             <Grid Margin="0,5,0,0">

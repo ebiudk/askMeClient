@@ -47,9 +47,9 @@
                 <StackPanel Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" 
                             Orientation="Vertical" VerticalAlignment="Top">
                     <Button Content="コピー" Command="{Binding CopyUrlCommand}" 
-                            Background="#50E3C2" Width="70"/>
+                            Background="#50E3C2" Foreground="#333333" FontWeight="Bold" Width="70"/>
                     <Button Content="開く" Command="{Binding OpenUrlCommand}" 
-                            Background="#F5A623" Width="70" Margin="0,5,0,0"/>
+                            Background="#F5A623" Foreground="#333333" FontWeight="Bold" Width="70" Margin="0,5,0,0"/>
                 </StackPanel>
             </Grid>
         </StackPanel>
