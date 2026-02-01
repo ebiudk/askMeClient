@@ -1,0 +1,46 @@
+# AskMe! クライアント - Windows版
+
+Pythonで開発されたVRChatログ監視ツールを、C# WPFアプリケーションとして再実装したWindows専用版です。
+
+## 概要
+
+このアプリケーションは、VRChatのログファイルをリアルタイムで監視し、ワールド変更イベントを検出します。検出されたワールド情報とインスタンスIDから、VRChat公式のランチURLを自動生成し、ワンクリックでワールドに入室できます。
+
+## 機能
+
+- **リアルタイムログ監視**: VRChatのログファイルを常時監視
+- **完全なインスタンス情報取得**: ワールド名とインスタンスIDを正確に抽出
+- **VRChat ランチURL自動生成**: クリックでワールドに直接入室可能なURLを生成
+- **複数行ログ追跡**: ワールド名とインスタンスIDが別行で出現しても正確に組み合わせる
+- **GUI統合**: 使いやすいWPFベースのユーザーインターフェース
+- **検出履歴**: 訪問したワールドの履歴を表示
+- **カスタマイズ可能**: ポーリング間隔を調整可能
+- **堅牢な設計**: ログファイルの回転に自動対応
+
+## システム要件
+
+- **OS**: Windows 10/11
+- **.NET**: .NET 8.0 以上 (Developed with .NET 9.0)
+- **VRChat**: インストール済みで実行中
+
+## 実装詳細 (SRP準拠)
+
+- **Services/LogFileFinder.cs**: VRChatログファイルのパスを検出。Windows環境に特化。
+- **Services/LogTailer.cs**: ログファイルの新規行を効率的に読み取る。ファイルポインタ管理、エラーリカバリ。
+- **Services/InstanceParser.cs**: ログ行からワールド名とインスタンスIDを抽出し、VRChatランチURLを生成。正規表現を使用。
+- **Services/VRChatLogMonitorService.cs**: 上記サービスを統合し、リアルタイム監視ロジックを提供。複数行ログの統合、重複インスタンスの防止。
+- **ViewModels/MainWindowViewModel.cs**: UIとビジネスロジックの連携。コマンド、プロパティ管理。
+- **Views/*.xaml.cs**: 各UIコンポーネントのコードビハインド。極力ロジックを持たず、ViewModelと連携。
+
+## ログファイルの監視対象
+
+### Windows環境
+```
+C:\Users\<ユーザー名>\AppData\LocalLow\VRChat\VRChat\output_log_YYYY-MM-DD_HH-MM-SS.txt
+```
+
+VRChatが実行されていない場合、または新しいセッションが開始された場合、ツールは自動的に新しいログファイルを検出します。
+
+## DEPENDENCIES
+- .NET 8.0 SDK (Developed with .NET 9.0) (これには、実行に必要なコアDLLが含まれます)
+- System.Reactive (NuGet Package, これもDLLとして参照されます)

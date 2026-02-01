@@ -1,0 +1,57 @@
+<UserControl x:Class="askMeWindows.Views.CurrentInstanceControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="800">
+    <Border Background="White" CornerRadius="8" Padding="15">
+        <StackPanel>
+            <TextBlock Style="{StaticResource LabelTextBlockStyle}" Text="現在の場所"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- ワールド名 -->
+                <StackPanel Grid.Row="0" Grid.Column="0">
+                    <TextBlock FontSize="11" Foreground="#999999" Text="ワールド名"/>
+                    <TextBlock Style="{StaticResource ValueTextBlockStyle}" 
+                               Text="{Binding DisplayWorldName}"/>
+                </StackPanel>
+
+                <!-- インスタンスID -->
+                <StackPanel Grid.Row="1" Grid.Column="0">
+                    <TextBlock FontSize="11" Foreground="#999999" Text="インスタンスID"/>
+                    <TextBlock Style="{StaticResource ValueTextBlockStyle}" 
+                               Text="{Binding DisplayInstanceId}"
+                               FontFamily="Consolas" FontSize="11"/>
+                </StackPanel>
+
+                <!-- LaunchURL -->
+                <StackPanel Grid.Row="2" Grid.Column="0">
+                    <TextBlock FontSize="11" Foreground="#999999" Text="Launch URL"/>
+                    <TextBlock Style="{StaticResource ValueTextBlockStyle}" 
+                               Text="{Binding DisplayLaunchUrl}"
+                               Foreground="#0078D4" TextDecorations="Underline"
+                               FontFamily="Consolas" FontSize="11"/>
+                </StackPanel>
+
+                <!-- アクションボタン -->
+                <StackPanel Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" 
+                            Orientation="Vertical" VerticalAlignment="Top">
+                    <Button Content="コピー" Command="{Binding CopyUrlCommand}" 
+                            Background="#50E3C2" Width="70"/>
+                    <Button Content="開く" Command="{Binding OpenUrlCommand}" 
+                            Background="#F5A623" Width="70" Margin="0,5,0,0"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Border>
+</UserControl>
