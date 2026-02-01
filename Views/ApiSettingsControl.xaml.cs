@@ -28,6 +28,6 @@ public partial class ApiSettingsControl : UserControl
 
   private void AskMeWebButton_Click(object sender, System.Windows.RoutedEventArgs e)
   {
-    Process.Start(new ProcessStartInfo("https://ask-me-orcin.vercel.app/") { UseShellExecute = true });
+    Process.Start(new ProcessStartInfo("https://ask-me.ebiudk.link/") { UseShellExecute = true });
   }
 }
