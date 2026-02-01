@@ -167,13 +167,14 @@ public class MainWindowViewModel : INotifyPropertyChanged
   public ObservableCollection<InstanceInfo> InstanceHistory { get; } =
       new ObservableCollection<InstanceInfo>();
 
-  public readonly ICommand StartCommand;
-  public readonly ICommand StopCommand;
-  public readonly ICommand CopyUrlCommand;
-  public readonly ICommand OpenUrlCommand;
+  public ICommand StartCommand { get; }
+  public ICommand StopCommand { get; }
+  public ICommand CopyUrlCommand { get; }
+  public ICommand OpenUrlCommand { get; }
 
   private async void Start()
   {
+    if (IsMonitoring) return;
     try
     {
       IsMonitoring = true;
@@ -182,23 +183,39 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
       await _monitorService.StartAsync(_cancellationTokenSource.Token);
     }
+    catch (OperationCanceledException)
+    {
+      // 正常なキャンセル
+    }
     catch (Exception ex)
     {
       Status = $"エラー: {ex.Message}";
+    }
+    finally
+    {
       IsMonitoring = false;
+      if (Status == "監視中...") Status = "停止しました";
     }
   }
 
   private async void Stop()
   {
+    if (!IsMonitoring) return;
+
     _cancellationTokenSource?.Cancel();
     IsMonitoring = false;
-    Status = "停止しました";
-    _monitorService.Dispose();
+    Status = "停止中...";
 
-    if (!string.IsNullOrWhiteSpace(ApiKey))
+    try
     {
-      await ApiService.ClearLocationAsync(ApiKey);
+      if (!string.IsNullOrWhiteSpace(ApiKey))
+      {
+        await ApiService.ClearLocationAsync(ApiKey);
+      }
+    }
+    finally
+    {
+      Status = "停止しました";
     }
   }
 
@@ -284,7 +301,11 @@ public class RelayCommand : ICommand
   private readonly Action _execute;
   private readonly Func<bool>? _canExecute;
 
-  public event EventHandler? CanExecuteChanged;
+  public event EventHandler? CanExecuteChanged
+  {
+    add { CommandManager.RequerySuggested += value; }
+    remove { CommandManager.RequerySuggested -= value; }
+  }
 
   public RelayCommand(Action execute, Func<bool>? canExecute = null)
   {
@@ -296,5 +317,5 @@ public class RelayCommand : ICommand
 
   public void Execute(object? parameter) => _execute();
 
-  public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+  public void RaiseCanExecuteChanged() => CommandManager.InvalidateRequerySuggested();
 }

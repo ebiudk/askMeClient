@@ -153,5 +153,7 @@ public class VRChatLogMonitorService
   {
     _tailer?.Close();
     _tailer?.Dispose();
+    _tailer = null;
+    _currentLogFile = null;
   }
 }
