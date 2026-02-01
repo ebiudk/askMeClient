@@ -14,12 +14,30 @@ public partial class MainWindow : Window
     DataContext = new MainWindowViewModel();
   }
 
+  protected override void OnStateChanged(System.EventArgs e)
+  {
+    if (WindowState == WindowState.Minimized)
+    {
+      this.Hide();
+    }
+    base.OnStateChanged(e);
+  }
+
   protected override async void OnClosing(System.ComponentModel.CancelEventArgs e)
   {
-    if (DataContext is MainWindowViewModel viewModel)
+    // Appが終了処理中であれば、そのまま閉じる
+    if (Application.Current is App app && app.IsExiting)
     {
-      await viewModel.OnClosing();
+      if (DataContext is MainWindowViewModel viewModel)
+      {
+        await viewModel.OnClosing();
+      }
+      base.OnClosing(e);
+      return;
     }
-    base.OnClosing(e);
+
+    // 終了処理中でなければ、ウィンドウを非表示にして終了をキャンセルする
+    e.Cancel = true;
+    this.Hide();
   }
 }

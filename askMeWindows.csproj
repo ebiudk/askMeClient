@@ -5,7 +5,7 @@
     <TargetFramework>net9.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <UseWindowsForms>false</UseWindowsForms>
+    <UseWindowsForms>true</UseWindowsForms>
     <AssemblyName>askMeWindows</AssemblyName>
     <RootNamespace>askMeWindows</RootNamespace>
     <StartupObject>askMeWindows.App</StartupObject>
