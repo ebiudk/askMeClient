@@ -28,6 +28,12 @@ public static class InstanceParser
       RegexOptions.Compiled
   );
 
+  // VRCApplication: HandleApplicationQuit
+  private static readonly Regex QuitPattern = new(
+      @"VRCApplication: HandleApplicationQuit",
+      RegexOptions.Compiled
+  );
+
   /// <summary>
   /// ワールド名を抽出
   /// </summary>
@@ -37,6 +43,16 @@ public static class InstanceParser
   {
     var match = EnteringRoomPattern.Match(logLine);
     return match.Success ? match.Groups[1].Value.Trim() : null;
+  }
+
+  /// <summary>
+  /// 終了行かどうかを判定
+  /// </summary>
+  /// <param name="logLine">ログの1行</param>
+  /// <returns>終了行であればtrue</returns>
+  public static bool IsQuitLine(string logLine)
+  {
+    return QuitPattern.IsMatch(logLine);
   }
 
   /// <summary>

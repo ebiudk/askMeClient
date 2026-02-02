@@ -23,4 +23,17 @@ public record InstanceInfo
 
   /// <summary>検出日時</summary>
   public DateTime DetectedAt { get; init; } = DateTime.Now;
+
+  /// <summary>
+  /// オフライン状態を表すインスタンス
+  /// </summary>
+  public static readonly InstanceInfo Offline = new()
+  {
+    WorldName = "オフライン",
+    WorldId = "offline",
+    InstanceId = "",
+    FullInstanceId = "offline",
+    LaunchUrl = "https://vrchat.com/",
+    DetectedAt = DateTime.Now
+  };
 }

@@ -265,11 +265,16 @@ public class MainWindowViewModel : INotifyPropertyChanged
   private async void OnInstanceChanged(object? sender, InstanceInfo instance)
   {
     CurrentInstance = instance;
-    InstanceHistory.Insert(0, instance);
 
-    // 履歴は最大100件
-    if (InstanceHistory.Count > 100)
-      InstanceHistory.RemoveAt(100);
+    // オフライン時は履歴に追加しない
+    if (instance.WorldId != "offline")
+    {
+      InstanceHistory.Insert(0, instance);
+
+      // 履歴は最大100件
+      if (InstanceHistory.Count > 100)
+        InstanceHistory.RemoveAt(100);
+    }
 
     Status = $"[{instance.DetectedAt:HH:mm:ss}] {instance.WorldName}";
 

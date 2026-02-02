@@ -44,6 +44,8 @@ public class VRChatLogMonitorService
 
       _currentLogFile = latestLog;
       _tailer = new LogTailer(latestLog);
+      _lastInstanceId = null; // リセット
+      _pendingWorldName = null; // リセット
 
       if (_tailer.Open())
       {
@@ -71,6 +73,15 @@ public class VRChatLogMonitorService
 
     foreach (var line in _tailer.GetNewLines())
     {
+      // 終了検知
+      if (InstanceParser.IsQuitLine(line))
+      {
+        _pendingWorldName = null;
+        _lastInstanceId = "offline";
+        InstanceChanged?.Invoke(this, InstanceInfo.Offline);
+        continue;
+      }
+
       // ワールド名を抽出（[Behaviour] Entering Room: xxx）
       var worldName = InstanceParser.ParseEnteringRoom(line);
       if (worldName != null)
